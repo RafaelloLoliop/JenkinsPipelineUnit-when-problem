@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'idea'
+}
+
+sourceSets {
+//    main {
+//    }
+
+    test {
+        groovy { srcDirs = ['tests'] }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.jenkins-ci.org/releases/" }
+    maven { url 'https://repo.jenkins-ci.org/public' }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
+    implementation 'com.cloudbees:groovy-cps:1.24'
+    implementation 'org.codehaus.groovy:groovy:3.0.7'
+    implementation 'org.codehaus.groovy:groovy-json:3.0.7'
+    implementation 'org.codehaus.groovy:groovy-xml:3.0.7'
+    implementation 'org.jenkins-ci.plugins.workflow:workflow-support:3.7@jar'
+    implementation 'org.jenkins-ci.plugins:pipeline-input-step:2.12@jar'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.1'
+
+    implementation 'com.github.jenkinsci:JenkinsPipelineUnit:master'
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    dependsOn 'cleanTest'
+    testLogging {
+        exceptionFormat "full"
+        events "started", "skipped", "passed", "failed"
+        showStandardStreams true
+    }
+}
