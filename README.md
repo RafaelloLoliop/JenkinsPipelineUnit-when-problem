@@ -10,5 +10,5 @@ docker build .
 or 
 
 ```
-RUN ./gradlew test
+./gradlew test
 ```
